@@ -1,0 +1,23 @@
+	// cur, _ := db.GetConnection().Collection("items").Find(context.Background(), bson.D{})
+	// defer cur.Close(context.Background())
+
+	// eachItem := db.Item{}
+	// ItemsList := []db.Item{}
+
+	// for cur.Next(context.Background()) {
+	// 	cur.Decode(&eachItem)
+	// 	ItemsList = append(ItemsList, eachItem)
+	// }
+
+
+
+
+	// cur, _ := db.GetConnection().Collection("vendors").Find(context.Background(), bson.D{})
+	// defer cur.Close(context.Background())
+
+	// n := db.Vendor{}
+	// vendorsList := []db.Vendor{}
+	// for cur.Next(context.Background()) {
+	// 	cur.Decode(&n)
+	// 	vendorsList = append(vendorsList, n)
+	// }
