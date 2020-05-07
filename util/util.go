@@ -3,7 +3,6 @@ package dbUtil
 import (
 	"context"
 	"ecommerce/db"
-	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -14,11 +13,7 @@ func FindVendorByName(vendorName string) bool {
 
 	// return true if a document is present and
 	// false if the vendor is new vendor
-	if (db.Vendor{}) != newVendor {
-		return true
-	} else {
-		return false
-	}
+	return false
 }
 
 func FindVendorById(vendorId primitive.ObjectID) bool {
@@ -27,24 +22,7 @@ func FindVendorById(vendorId primitive.ObjectID) bool {
 
 	// return true if a document is present and
 	// false if the vendor is new vendor
-	if (db.Vendor{}) != vendorFromDB {
-		return true
-	} else {
-		return false
-	}
-}
-
-func FindItemByName(itemName string) bool {
-	newItem := db.Item{}
-	db.GetConnection().Collection("items").FindOne(context.TODO(), bson.D{{"name", itemName}}).Decode(&newItem)
-
-	// return true if item with same name is present and
-	// false if the item is not present
-	if newItem.ID.IsZero() {
-		return false
-	} else {
-		return true
-	}
+	return false
 }
 
 func FindItemById(itemId primitive.ObjectID) bool {
@@ -53,13 +31,23 @@ func FindItemById(itemId primitive.ObjectID) bool {
 
 	// return true if a document is present and
 	// false if the vendor is new vendor
-
-	// Item id is zero so that means no item is present
-
-	fmt.Println(itemFromDB)
 	if itemFromDB.ID.IsZero() {
 		return false
 	} else {
 		return true
 	}
+}
+
+func Success(message string) db.HTMLResponse {
+	response := db.HTMLResponse{}
+	response.Error = false
+	response.Message = message
+	return response
+}
+
+func Failure(message string) db.HTMLResponse {
+	response := db.HTMLResponse{}
+	response.Error = true
+	response.Message = message
+	return response
 }

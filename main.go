@@ -13,6 +13,8 @@ func main() {
 	// route handlers
 	http.HandleFunc("/health", router.ServerStatus)
 	http.HandleFunc("/vendor", router.Vendor)
+	http.HandleFunc("/vendor/item", router.VendorItems)
+
 	http.HandleFunc("/item", router.Item)
 
 	http.ListenAndServe(":8080", nil)
