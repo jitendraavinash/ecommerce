@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
 	"net/http"
 )
 
@@ -81,12 +82,9 @@ func addItemToVendor(req *http.Request) db.HTMLResponse {
 
 		updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
 		// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
-		if err != nil {
-			return dbUtil.Failure(err.Error())
-		} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
-			return dbUtil.Success("update success")
-		}
-		return dbUtil.Failure("Item Already present")
+
+		return dbUtil.GetModifiedResult(err, updateResult, "Item Already present")
+
 	}
 	return dbUtil.Failure("Item is not available")
 
@@ -124,12 +122,9 @@ func editItemInVendor(req *http.Request) db.HTMLResponse {
 
 		updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
 		// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
-		if err != nil {
-			return dbUtil.Failure(err.Error())
-		} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
-			return dbUtil.Success("update success")
-		}
-		return dbUtil.Failure("Item Already present")
+
+		return dbUtil.GetModifiedResult(err, updateResult, "Item Already present")
+
 	}
 	return dbUtil.Failure("Item is not available")
 
@@ -160,12 +155,8 @@ func deleteItemInVendor(req *http.Request) db.HTMLResponse {
 
 	updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
 	// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
-	if err != nil {
-		return dbUtil.Failure(err.Error())
-	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
-		return dbUtil.Success("update success")
-	}
-	return dbUtil.Failure("Item Already present")
+
+	return dbUtil.GetModifiedResult(err, updateResult, "Item Already present")
 }
 
 func getVendorItemList(req *http.Request) db.HTMLResponse {

@@ -88,14 +88,7 @@ func editVendor(req *http.Request) db.HTMLResponse {
 	}}
 
 	updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), filter, updateQuery)
-	if err != nil {
-		return dbUtil.Failure(err.Error())
-	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
-		return dbUtil.Success("update success")
-	} else if updateResult.ModifiedCount == 0 {
-		return dbUtil.Failure("update failure")
-	}
-	return dbUtil.Failure("Vendor Not Found")
+	return dbUtil.GetModifiedResult(err, updateResult, "Vendor Not Found")
 
 }
 

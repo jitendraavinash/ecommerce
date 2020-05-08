@@ -90,15 +90,7 @@ func editItem(req *http.Request) db.HTMLResponse {
 	}}
 
 	updateResult, err := db.GetConnection().Collection("items").UpdateOne(context.TODO(), filter, updateQuery)
-	if err != nil {
-		return dbUtil.Failure(err.Error())
-	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
-		return dbUtil.Success("update success")
-	} else if updateResult.ModifiedCount == 0 {
-		return dbUtil.Failure("update failure")
-	}
-	return dbUtil.Failure("Item Not Found")
-
+	return dbUtil.GetModifiedResult(err, updateResult, "Item Not Found")
 }
 
 func deleteItem(req *http.Request) db.HTMLResponse {
