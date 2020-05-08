@@ -80,7 +80,7 @@ func addItemToVendor(req *http.Request) db.HTMLResponse {
 		}}
 
 		updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
-		fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
+		// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
 		if err != nil {
 			return dbUtil.Failure(err.Error())
 		} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
@@ -123,7 +123,7 @@ func editItemInVendor(req *http.Request) db.HTMLResponse {
 		}}
 
 		updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
-		fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
+		// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
 		if err != nil {
 			return dbUtil.Failure(err.Error())
 		} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
@@ -142,7 +142,7 @@ func deleteItemInVendor(req *http.Request) db.HTMLResponse {
 	// Delete one document.
 	vendorObjID, _ := primitive.ObjectIDFromHex(vendorId[0])
 	itemObjID, _ := primitive.ObjectIDFromHex(itemId[0])
-	fmt.Println(vendorObjID, itemObjID)
+	// fmt.Println(vendorObjID, itemObjID)
 	if vendorObjID.IsZero() {
 		return dbUtil.Failure("Vendor Id is Required")
 	} else if itemObjID.IsZero() {
@@ -159,7 +159,7 @@ func deleteItemInVendor(req *http.Request) db.HTMLResponse {
 	}}
 
 	updateResult, err := db.GetConnection().Collection("vendors").UpdateOne(context.TODO(), matchCondition, updateQuery)
-	fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
+	// fmt.Println(updateResult.MatchedCount, updateResult.ModifiedCount)
 	if err != nil {
 		return dbUtil.Failure(err.Error())
 	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {

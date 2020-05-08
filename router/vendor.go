@@ -137,7 +137,6 @@ func getAllVendors() []bson.M {
 	if err = showInfoCursor.All(context.Background(), &showsWithInfo); err != nil {
 		panic(err)
 	}
-	fmt.Println(showsWithInfo)
 
 	return showsWithInfo
 }
