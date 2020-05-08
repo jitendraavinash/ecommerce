@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson"
 	"log"
+	"time"
 )
 
 // const dbUrl = "mongodb://localhost:27017"
@@ -21,7 +23,21 @@ func Connect() {
 		log.Fatal(err)
 	}
 	DBCon = client.Database("ecommerce")
+	createdIndexes()
 	fmt.Println("Connected to MongoDB!")
+}
+
+func createdIndexes() {
+	mod := mongo.IndexModel{
+		Keys: bson.M{
+			"name": 1, // index in ascending order
+		}, Options: options.Index().SetUnique(true),
+	}
+	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+
+	GetConnection().Collection("vendors").Indexes().CreateOne(ctx, mod)
+	GetConnection().Collection("items").Indexes().CreateOne(ctx, mod)
+
 }
 
 func GetConnection() *mongo.Database {
