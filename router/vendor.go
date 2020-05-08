@@ -93,7 +93,7 @@ func editVendor(req *http.Request) db.HTMLResponse {
 	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
 		return dbUtil.Success("update success")
 	} else if updateResult.ModifiedCount == 0 {
-		return dbUtil.Failure("update success")
+		return dbUtil.Failure("update failure")
 	}
 	return dbUtil.Failure("Vendor Not Found")
 

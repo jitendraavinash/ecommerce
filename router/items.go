@@ -65,7 +65,7 @@ func addItem(req *http.Request) db.HTMLResponse {
 	}
 
 	// returning inserted document id in string format
-	return dbUtil.Failure(newItem.ID.Hex())
+	return dbUtil.Success(newItem.ID.Hex())
 }
 
 func editItem(req *http.Request) db.HTMLResponse {
@@ -95,7 +95,7 @@ func editItem(req *http.Request) db.HTMLResponse {
 	} else if updateResult.ModifiedCount == 1 && updateResult.MatchedCount == 1 {
 		return dbUtil.Success("update success")
 	} else if updateResult.ModifiedCount == 0 {
-		return dbUtil.Failure("update success")
+		return dbUtil.Failure("update failure")
 	}
 	return dbUtil.Failure("Item Not Found")
 

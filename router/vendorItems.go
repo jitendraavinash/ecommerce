@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	// "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"net/http"
 )
@@ -171,7 +170,6 @@ func deleteItemInVendor(req *http.Request) db.HTMLResponse {
 
 func getVendorItemList(req *http.Request) db.HTMLResponse {
 	itemId, _ := req.URL.Query()["itemId"]
-
 	itemObjID, err := primitive.ObjectIDFromHex(itemId[0])
 	if err != nil {
 		return dbUtil.Failure(err.Error())
@@ -188,25 +186,18 @@ func getVendorItemList(req *http.Request) db.HTMLResponse {
 			},
 		},
 	}
-
 	findOptions := options.Find()
 	findOptions.SetProjection(bson.D{{"itemsList", 0}})
 	cur, err := db.GetConnection().Collection("vendors").Find(context.TODO(), findQuery, findOptions)
 	if err != nil {
 		dbUtil.Failure(err.Error())
 	}
+
 	var results []*db.Vendor
-
 	for cur.Next(context.TODO()) {
-
 		// create a value into which the single document can be decoded
 		var elem db.Vendor
-		err := cur.Decode(&elem)
-		fmt.Println(elem)
-		if err != nil {
-			dbUtil.Failure(err.Error())
-		}
-
+		cur.Decode(&elem)
 		results = append(results, &elem)
 	}
 
@@ -215,10 +206,7 @@ func getVendorItemList(req *http.Request) db.HTMLResponse {
 	}
 	cur.Close(context.TODO())
 
-	out, err := json.Marshal(results)
-	if err != nil {
-		panic(err)
-	}
+	out, _ := json.Marshal(results)
 
 	return dbUtil.Success(string(out))
 }
